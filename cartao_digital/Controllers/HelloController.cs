@@ -22,7 +22,7 @@ public class HelloController : ControllerBase
     }
 
     [HttpGet("echo")]
-    public ActionResult<object> GetHelloEcho([FromQuery] string message)
+    public ActionResult<object> GetHelloEcho([FromQuery] string? message)
     {
         if (string.IsNullOrWhiteSpace(message))
         {

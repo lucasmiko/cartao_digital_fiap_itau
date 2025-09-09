@@ -38,3 +38,24 @@ Sem estado” significa: o servidor não guarda memória da conversa entre requi
 ## O que é um Controller?
 
 - Uma **classe** C# que **agrupa endpoints** (rotas) relacionados.
+
+## Tipos
+
+- Definição: Um tipo define a natureza de um dado - o que ele pode armazenar e como pode ser manipulado.
+
+> Os tipos importam muito no C#!
+
+### Tipos por valor (value types)
+
+- Copiam valores, variaveis nao compartilham memoria.
+
+### Tipos por referência (reference types)
+
+- Copiam a referencia, variaveis compartilham o mesmo objeto.
+
+## Funções (Métodos)
+
+int Somar(int a, int b)
+{
+    return a + b;
+}
