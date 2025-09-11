@@ -14,16 +14,16 @@ namespace cartao_digital.Controllers
             List<string> acoesPraTeste = a switch
             {
                 "if" => ConceitosService.IfDemo(),
-                // "else" => _conceitos.ElseDemo(),
-                // "switch" => _conceitos.SwitchDemo(),
-                // "for" => _conceitos.ForDemo(),
-                // "foreach" => _conceitos.ForEachDemo(),
-                // "dowhile" => _conceitos.DoWhileDemo(),
-                // "linq" => _conceitos.LinqDemo(),
+                "else" => ConceitosService.ElseDemo(),
+                "switch" => ConceitosService.SwitchDemo(),
+                "for" => ConceitosService.ForDemo(),
+                "foreach" => ConceitosService.ForEachDemo(),
+                "dowhile" => ConceitosService.DoWhileDemo(),
+                "linq" => ConceitosService.LinqDemo(),
                 _ => new List<string> { "Ação não reconhecida. Use: if, else, switch, for, foreach, dowhile, linq." }
             };
 
-            return Ok(new { acao = a, resultados = acoesPraTeste } );
+            return Ok(new { acao = a, resultados = acoesPraTeste });
         }
     }
 }
