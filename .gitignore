@@ -1,0 +1,23 @@
+# Build/artefatos .NET
+**/bin/
+**/obj/
+**/artifacts/
+
+# Visual Studio / Rider / VS Code
+.vs/
+.idea/
+.vscode/
+
+# Logs e SO
+*.log
+.DS_Store
+Thumbs.db
+
+# NuGet (legado)
+packages/
+*.nupkg
+
+# Outros comuns
+*.user
+*.suo
+*.rsuser
