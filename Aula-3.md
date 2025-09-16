@@ -23,18 +23,3 @@ Permite que metodos que tenham o mesmo nome tenham comportamentos diferentes de 
 ## Exceções
 
 Sao uma forma de sinalizar em tempo de execucao algo sai do esperado.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

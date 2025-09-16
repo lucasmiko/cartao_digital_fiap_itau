@@ -35,3 +35,4 @@
 /Users/lucasmiko/Documents/cartao_digital_v4/cartao_digital/obj/Debug/net9.0/cartao_digital.genruntimeconfig.cache
 /Users/lucasmiko/Documents/cartao_digital_v4/cartao_digital/obj/Debug/net9.0/ref/cartao_digital.dll
 /Users/lucasmiko/Documents/cartao_digital_v4/cartao_digital/obj/Debug/net9.0/cartao_digital.sourcelink.json
+/Users/lucasmiko/Documents/cartao_digital_v4/cartao_digital/bin/Debug/net9.0/clientes.json

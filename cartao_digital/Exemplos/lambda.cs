@@ -3,7 +3,11 @@ public class Lambda
     void Test()
     {
         var valores = new List<int> { 1, 2, 3, 4, 5 };
-        var pares = valores.Where(valorDentroDaLista => valorDentroDaLista % 2 == 0).ToList();
+        
+        var pares = valores
+        .Where(valorDentroDaLista => valorDentroDaLista % 2 == 0)
+        .ToList();
+
         Console.WriteLine(pares);
 
         /*

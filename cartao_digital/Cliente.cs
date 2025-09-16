@@ -43,7 +43,7 @@ public class Cliente
         Saldo += valor;
     }
 
-    public void Sacar(decimal valor)
+    public virtual void Sacar(decimal valor)
     {
         if (valor <= 0)
         {
@@ -59,6 +59,15 @@ public class Cliente
         }
 
         Saldo -= valorTotal;
+    }
+
+    public void Transferir(Cliente clienteDestino, decimal valor)
+    {
+        if (clienteDestino is null)
+            throw new ArgumentNullException(nameof(clienteDestino), "Cliente destino nao pode ser nulo");
+
+        this.Sacar(valor); // Saca do cliente origem
+        clienteDestino.Depositar(valor);
     }
 
     // Colocamos o virtual para permitir que classes derivadas (filhas) possam sobrescrever esse metodo (override)
@@ -113,4 +122,42 @@ public class ClientePJ : Cliente
     }
 
     public override string ToString() => $"Cliente PJ: {Nome}, CNPJ: {CNPJ}, Saldo: {Saldo:C}";
+}
+
+public class ClientePersonalite : Cliente
+{
+    private DateOnly _dataUltimoSaque;
+    private decimal _totalSaqueHoje;
+    public decimal LimiteSaqueDiario { get; set; }
+    public ClientePersonalite(int id, string nome, decimal limiteSaqueDiario) : base(id, nome)
+    {
+        if (limiteSaqueDiario <= 0)
+            throw new ArgumentOutOfRangeException(nameof(limiteSaqueDiario), "Limite de saque diario deve ser maior que zero");
+
+        LimiteSaqueDiario = limiteSaqueDiario;
+        _dataUltimoSaque = DateOnly.MinValue;
+        _totalSaqueHoje = 0m;
+    }
+
+    public override decimal CalcularTarifaSaque(decimal valor) => 0m; // Isento de tarifa
+
+    public override void Sacar(decimal valor)
+    {
+        var hoje = DateOnly.FromDateTime(DateTime.UtcNow);
+        if (hoje != _dataUltimoSaque)
+        {
+            _dataUltimoSaque = hoje;
+            _totalSaqueHoje = 0m; // Reseta o total de saque diario
+        }
+
+        if (_totalSaqueHoje + valor > LimiteSaqueDiario)
+        {
+            throw new InvalidOperationException("Limite de saque diario excedido");
+        }
+
+        base.Sacar(valor); // Chama o metodo Sacar da classe base (Cliente)
+        _totalSaqueHoje += valor;
+    }
+
+    public override string ToString() => $"Cliente Personalite: {Nome}, Limite Saque Diario: {LimiteSaqueDiario:C}, Saldo: {Saldo:C}";
 }
