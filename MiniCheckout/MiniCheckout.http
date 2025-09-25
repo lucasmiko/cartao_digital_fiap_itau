@@ -1,0 +1,6 @@
+@MiniCheckout_HostAddress = http://localhost:5057
+
+GET {{MiniCheckout_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
