@@ -1,0 +1,6 @@
+NOVO TITULO PARA O ARQUIVO!
+ORDER: f26e40cd
+ITEMS:
+- Smartphone x1 @ $3,000.00 = $3,000.00
+Subtotal: $3,000.00
+Total:    $2,700.00

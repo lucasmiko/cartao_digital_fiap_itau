@@ -1,0 +1,8 @@
+NOVO TITULO PARA O ARQUIVO!
+ORDER: 9655b5f1
+ITEMS:
+- Notebook x1 @ $5,000.00 = $5,000.00
+- Smartphone x4 @ $3,000.00 = $12,000.00
+- Headphones x3 @ $500.00 = $1,500.00
+Subtotal: $18,500.00
+Total:    $16,650.00

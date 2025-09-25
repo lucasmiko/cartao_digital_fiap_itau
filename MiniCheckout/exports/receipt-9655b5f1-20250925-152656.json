@@ -1,0 +1,25 @@
+{
+  "orderId": "9655b5f1",
+  "items": [
+    {
+      "Name": "Notebook",
+      "UnitPrice": 5000,
+      "Quantity": 1,
+      "LineTotal": 5000
+    },
+    {
+      "Name": "Smartphone",
+      "UnitPrice": 3000,
+      "Quantity": 4,
+      "LineTotal": 12000
+    },
+    {
+      "Name": "Headphones",
+      "UnitPrice": 500,
+      "Quantity": 3,
+      "LineTotal": 1500
+    }
+  ],
+  "subtotal": 18500,
+  "total": 16650.0
+}

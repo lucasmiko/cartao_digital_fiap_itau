@@ -4,6 +4,7 @@ using MiniCheckout.Application.Discounts;
 using MiniCheckout.Application.Services;
 using MiniCheckout.Domain;
 using MiniCheckout.Infrastructure.Repositories;
+using MiniCheckout.Infrastructure.Files;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IProductRepository, InMemoryProductRepository>();
 builder.Services.AddSingleton<NoDiscount>();
 builder.Services.AddSingleton<TenPercentDiscount>();
+builder.Services.AddScoped<IReceiptExporter>(_ => new FileSystemReceiptExporter("./exports"));
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -35,7 +37,9 @@ app.MapPost("checkout/calculate", (
     IProductRepository repo,
     NoDiscount noDiscount,
     TenPercentDiscount tenPercentageDiscount,
-    string? discount) =>
+    IReceiptExporter exporter,
+    string? discount,
+    bool export = false) =>
 {
     var strategy = (discount?.ToLowerInvariant()) switch
     {
@@ -63,11 +67,29 @@ app.MapPost("checkout/calculate", (
         var subTotal = lines.Sum(l => l.TotalPrice);
         var total = checkoutService.GetTotal();
 
+        string? txtPath = null;
+        string? jsonPath = null;
+
+        if (export)
+        {
+            var receiptItems = lines.Select(l => new MiniCheckout.Models.ReceiptItem(
+                l.ProductName,
+                l.UnitPrice,
+                l.Quantity,
+                l.TotalPrice)).ToList();
+
+            var orderId = Guid.NewGuid().ToString()[..8];
+            (txtPath, jsonPath) = exporter.Export(orderId, receiptItems, subTotal, total);
+            Console.WriteLine($"Receipt exported to: {txtPath} and {jsonPath}");
+        }
+
         var response = new CheckoutResponse(
             lines,
             subTotal,
             strategy.GetType().Name,
-            total);
+            total,
+            txtPath,
+            jsonPath);
 
             return Results.Ok(response);
     }
