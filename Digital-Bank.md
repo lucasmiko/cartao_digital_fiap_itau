@@ -7,7 +7,7 @@
 - Extratos da conta
 - Fatura do cartao
 
-### Objetivo do dia
+### Objetivo do dia (30-09-2025)
 
 - Criar as camadas do projeto
 
