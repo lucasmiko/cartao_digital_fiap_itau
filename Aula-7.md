@@ -159,3 +159,68 @@ var total = validItems.Sum(item => item.Price * item.Quantity);
 // Usei o dicionario pela necessecidade de lookup0(1) em rotas especificas/criticas
 var cache = new Dictionary<string, Product>();
 ```
+
+Exercicio - Refatorar aplicando: nomes melhores, guard clauses, extração de métodos e mensagens de erro claras.
+
+```csharp
+public decimal C(Account a, List<Tx> t)
+{
+    decimal s = 0;
+    if (a != null && t != null)
+    {
+        foreach (var x in t)
+        {
+            if (x.Type == 1) s += x.Amount;
+            else if (x.Type == 2) s -= x.Amount;
+        }
+    }
+    return s;
+}
+
+```
+
+Resolucao
+
+```csharp
+public decimal CalculateBalance(Account account, IEnumerable<Tx> transactions)
+{
+    if (account is null)
+        throw new ArgumentNullException(nameof(account));
+    if (transactions is null)
+        throw new ArgumentNullException(nameof(transactions));
+
+    return transactions.Sum(Calc);
+
+    static decimal Calc(Tx tx) => tx.Type switch
+    {
+        TxType.Credit => tx.Amount,
+        TxType.Debit => -tx.Amount,
+        _ => throw new InvalidOperationExcepetion();
+    };
+}
+
+public enum TxType {Credit = 1, Debit = 2};
+public record Tx(TxType Type, decimal Amount)
+```
+
+## Clean Code - Principios principais
+
+- KISS: se tem duas solucoes para um problema, devemos escolher a mais simples;
+- DRY: extrair duplicacoes para um unico lugar apropriado;
+- YAGNI: nao condigique para o futuro, eliminar recursos mortos;
+- Lei de Deméter;
+- SLAP: nivel de abstracao por metodo
+- Boy Scout Rule: sempre deixe algo um pouco melhor
+
+### Checklist para as nossas pull-requests
+
+1. **Nomes dizem a intenção?** (Is/Has/Should para bool; Async sufixo; interfaces com I)
+2. **Métodos pequenos e uma responsabilidade?**
+3. **Sem duplicação óbvia?** 
+4. **Fluxo claro e guard clauses para erros?**
+5. **Sem acoplamento desnecessário?** (Lei de Deméter)
+6. **Tratamento de nulos e exceções adequado?** (mensagens úteis, tipos certos)
+7. **Comentários explicam “por quê”, não “o quê”?**
+8. **Testabilidade**: código permite teste fácil?
+9. **Simplicidade**: evitou over-engineering?
+10. **Consistência**: segue padrão do repositório (pastas, usings, `var`, formatação)?
