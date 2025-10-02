@@ -1,25 +1,33 @@
-# Banco Digital
+# Digital Bank
 
-- Conta
-- Clientes
-- Cartoes
-- Transacoes
-- Extratos da conta
-- Fatura do cartao
+## Parte 1 — Kickoff: Web API + Clientes
+**Arquivos a serem criados**
+- `DigitalBank/Program.cs` (configuração mínima da API e Swagger)
+- `DigitalBank/Domain/Models/Customer.cs`
+- `DigitalBank/Infrastructure/Repositories/ICustomerRepository.cs`
+- `DigitalBank/Infrastructure/Repositories/CustomerFileRepository.cs`
+- `DigitalBank/Application/DTOs/CreateCustomerDto.cs`
+- `DigitalBank/Application/Validation/CpfUtils.cs`
+- `DigitalBank/Api/Controllers/CustomerController.cs`
+- `DigitalBank/Data/customers.json`
 
-### Objetivo do dia (30-09-2025)
+## Parte 2 — Conta: Saldo e Depósito
+**Arquivos a serem criados**
+- `DigitalBank/Domain/Models/Account.cs`
+- `DigitalBank/Infrastructure/Repositories/IAccountRepository.cs`
+- `DigitalBank/Infrastructure/Repositories/AccountFileRepository.cs`
+- `DigitalBank/Application/DTOs/DepositDto.cs`
+- `DigitalBank/Application/Services/AccountService.cs`
+- `DigitalBank/Api/Controllers/AccountController.cs`
+- `DigitalBank/Data/accounts.json`
 
-- Criar as camadas do projeto
-
-````
-Domain/Models/Customer.cs
-Application/DTOs/CreateCustomerDto.cs
-Infrastructure/Repositories/ICustomerRepository.cs
-Api/Controllers/CustomersController.cs
-Infrastructure/Repositories/CustomerFileRepository.cs
-Data/customers.json
-````
-
-- Criar o modelo/DTO/Repository de Cliente/Customer
-- Camada de dados em json
-- Endpoints: POST de clientes, GetAll, GetById
+## Parte 3 — Cartões: Débito e Crédito
+**Arquivos a serem criados**
+- `DigitalBank/Domain/Enums/CardType.cs`
+- `DigitalBank/Domain/Models/Card.cs`
+- `DigitalBank/Infrastructure/Repositories/ICardRepository.cs`
+- `DigitalBank/Infrastructure/Repositories/CardFileRepository.cs`
+- `DigitalBank/Application/DTOs/CreateCreditCardDto.cs`
+- `DigitalBank/Application/Services/CardService.cs`
+- `DigitalBank/Api/Controllers/CardsController.cs`
+- `DigitalBank/Data/cards.json`
