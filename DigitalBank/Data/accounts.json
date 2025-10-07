@@ -1,0 +1,12 @@
+[
+  {
+    "Id": 1,
+    "CustomerId": 1,
+    "Balance": 500
+  },
+  {
+    "Id": 2,
+    "CustomerId": 1,
+    "Balance": 300
+  }
+]

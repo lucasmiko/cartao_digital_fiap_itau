@@ -1,3 +1,5 @@
+
+using DigitalBank.Api.Application.Services;
 using DigitalBank.Api.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +10,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<ICustomerRepository, CustomerRepository>();
+builder.Services.AddSingleton<IAccountRepository, AccountRepository>();
+
+builder.Services.AddSingleton<AccountService>();
 
 var app = builder.Build();
 
