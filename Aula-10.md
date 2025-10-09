@@ -3,7 +3,7 @@
 - `DigitalBank/Domain/Enums/CardType.cs`
 - `DigitalBank/Domain/Models/Card.cs`
 - `DigitalBank/Infrastructure/Repositories/ICardRepository.cs`
-- `DigitalBank/Infrastructure/Repositories/CardFileRepository.cs`
+- `DigitalBank/Infrastructure/Repositories/CardRepository.cs`
 - `DigitalBank/Application/DTOs/CreateCreditCardDto.cs`
 - `DigitalBank/Application/Services/CardService.cs`
 - `DigitalBank/Api/Controllers/CardsController.cs`

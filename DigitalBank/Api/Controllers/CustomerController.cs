@@ -24,6 +24,11 @@ public class CustomersController : ControllerBase
             return BadRequest("Nome e CPF são obrigatórios.");
         }
 
+        if (!CpfUtils.IsValid(dto.Cpf))
+        {
+            return BadRequest("CPF inválido.");
+        }
+
         var newCustomer = new Customer
         {
             Name = dto.Name,
