@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "accountId": 1,
+    "cardType": 1,
+    "creditLimit": null,
+    "availableCredit": 0,
+    "isActive": true
+  },
+  {
+    "id": 2,
+    "accountId": 2,
+    "cardType": 1,
+    "creditLimit": null,
+    "availableCredit": 0,
+    "isActive": true
+  },
+  {
+    "id": 3,
+    "accountId": 1,
+    "cardType": 2,
+    "creditLimit": 20000,
+    "availableCredit": 20000,
+    "isActive": true
+  }
+]

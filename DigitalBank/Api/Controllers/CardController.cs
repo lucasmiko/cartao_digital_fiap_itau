@@ -17,7 +17,7 @@ public class CardsController : ControllerBase
     }
 
     [HttpPost("debit")]
-    public ActionResult<Card> CreateDebitCard([FromRoute] int accountId)
+    public ActionResult<Card> CreateDebitCard([FromQuery] int accountId)
     {
         if (accountId <= 0)
             return BadRequest("O Id da conta é obrigatório.");
@@ -30,7 +30,7 @@ public class CardsController : ControllerBase
     }
 
     [HttpPost("credit")]
-    public ActionResult<Card> CreateCreditCard([FromRoute] int accounId, CreateCreditCardDto dto)
+    public ActionResult<Card> CreateCreditCard([FromQuery] int accounId, CreateCreditCardDto dto)
     {
         if (!ModelState.IsValid)
             return ValidationProblem(ModelState);
@@ -46,7 +46,7 @@ public class CardsController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<List<Card>> GetCardsByAccount([FromRoute] int accountId)
+    public ActionResult<List<Card>> GetCardsByAccount([FromQuery] int accountId)
     {
         if (accountId <= 0)
             return BadRequest("O Id da conta é obrigatório.");

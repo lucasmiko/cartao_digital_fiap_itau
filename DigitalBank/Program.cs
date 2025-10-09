@@ -11,8 +11,10 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<ICustomerRepository, CustomerRepository>();
 builder.Services.AddSingleton<IAccountRepository, AccountRepository>();
+builder.Services.AddSingleton<ICardRepository, CardRepository>(); // <<<<<<<<<<<<<<<<
 
 builder.Services.AddSingleton<AccountService>();
+builder.Services.AddSingleton<CardService>(); // <<<<<<<<<<<<<<<<
 
 var app = builder.Build();
 
