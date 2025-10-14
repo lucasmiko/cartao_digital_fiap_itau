@@ -60,6 +60,7 @@ _service.GetBalance(id);
 - `DigitalBank/Domain/Models/Transaction.cs`
 - `DigitalBank/Infrastructure/Repositories/ITransactionRepository.cs`
 - `DigitalBank/Infrastructure/Repositories/TransactionFileRepository.cs`
+
 - `DigitalBank/Application/DTOs/PurchaseDto.cs`
 - `DigitalBank/Application/Services/TransactionResult.cs`
 - `DigitalBank/Application/Services/TransactionService.cs`

@@ -4,102 +4,36 @@ using Microsoft.Extensions.Hosting;
 
 namespace DigitalBank.Api.Infrastructure.Repositories;
 
-public class AccountRepository : IAccountRepository
+public class AccountRepository : RepositoryBase<Account>, IAccountRepository
 {
-    private readonly string _filePath;
-    private static readonly object _fileLock = new();
-    private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
+    public AccountRepository(IHostEnvironment env) : base(env, "accounts.json")
     {
-        WriteIndented = true
-    };
-
-    public AccountRepository(IHostEnvironment env)
-    {
-        var dataDirectory = Path.Combine(env.ContentRootPath, "Data");
-        Directory.CreateDirectory(dataDirectory);
-
-        _filePath = Path.Combine(dataDirectory, "accounts.json");
-        EnsureFileExistsAndValid();
     }
 
     public Account CreateAccount(Account account)
     {
-        lock (_fileLock)
+        return WithLock(accountsFromBase =>
         {
-            var accounts = LoadUnlocked();
-            account.Id = NextId(accounts);
-            accounts.Add(account);
-            SaveUnlocked(accounts);
+            account.Id = NextId(accountsFromBase);
+            accountsFromBase.Add(account);
             return account;
-        }
+        });
     }
 
     public Account? GetById(int id)
     {
-        lock (_fileLock)
-        {
-            return LoadUnlocked().FirstOrDefault(account => account.Id == id);
-        }
+        return ReadOnly(all => all
+            .FirstOrDefault(account => account.Id == id));
     }
 
     public void UpdateBalance(Account account)
     {
-        lock (_fileLock)
+        WithLock(accountsFromBase =>
         {
-            var accounts = LoadUnlocked();
-            var index = accounts.FindIndex(accountFromDb => accountFromDb.Id == account.Id);
+            var index = accountsFromBase.FindIndex(accountFromDb => accountFromDb.Id == account.Id);
             if (index < 0) return;
-            accounts[index] = account;
-            SaveUnlocked(accounts);
-        }
-    }
-
-    // Métodos auxiliares para persistência em arquivo JSON
-
-    private void EnsureFileExistsAndValid()
-    {
-        try
-        {
-            if (!File.Exists(_filePath) || string.IsNullOrWhiteSpace(File.ReadAllText(_filePath)))
-            {
-                File.WriteAllText(_filePath, "[]");
-                return;
-            }
-
-            var text = File.ReadAllText(_filePath);
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                File.WriteAllText(_filePath, "[]");
-                return;
-            }
-
-            using var _ = JsonDocument.Parse(text);
-        }
-        catch
-        {
-            File.WriteAllText(_filePath, "[]");
-        }
-    }
-
-    private List<Account> LoadUnlocked()
-    {
-        try
-        {
-            var json = File.ReadAllText(_filePath);
-            if (string.IsNullOrWhiteSpace(json)) return new List<Account>();
-            return JsonSerializer.Deserialize<List<Account>>(json, _jsonOptions) ?? new List<Account>();
-        }
-        catch
-        {
-            File.WriteAllText(_filePath, "[]");
-            return new();
-        }
-    }
-
-    private void SaveUnlocked(List<Account> accounts)
-    {
-        var json = JsonSerializer.Serialize(accounts, _jsonOptions);
-        File.WriteAllText(_filePath, json);
+            accountsFromBase[index] = account;
+        });
     }
 
     private static int NextId(List<Account> accounts)
