@@ -52,3 +52,17 @@ _service.GetBalance(id);
 - `DigitalBank/Application/Services/CardService.cs`
 - `DigitalBank/Api/Controllers/CardsController.cs`
 - `DigitalBank/Data/cards.json`
+
+## Parte 4 — Transações (Débito e Crédito)
+**Arquivos a serem criados/atualizados com os alunos**
+- `DigitalBank/Domain/Enums/TransactionType.cs`
+- `DigitalBank/Domain/Enums/TransactionStatus.cs`
+- `DigitalBank/Domain/Models/Transaction.cs`
+- `DigitalBank/Infrastructure/Repositories/ITransactionRepository.cs`
+- `DigitalBank/Infrastructure/Repositories/TransactionFileRepository.cs`
+- `DigitalBank/Application/DTOs/PurchaseDto.cs`
+- `DigitalBank/Application/Services/TransactionResult.cs`
+- `DigitalBank/Application/Services/TransactionService.cs`
+- `DigitalBank/Api/Controllers/TransactionsController.cs` (endpoints `/transactions/debit` e `/transactions/credit`)
+- Atualização em `DigitalBank/Program.cs` para registrar o repositório e serviço de transações
+- `DigitalBank/Data/transactions.json`
