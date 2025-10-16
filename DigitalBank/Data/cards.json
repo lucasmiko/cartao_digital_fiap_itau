@@ -20,7 +20,7 @@
     "accountId": 1,
     "cardType": 2,
     "creditLimit": 20000,
-    "availableCredit": 20000,
+    "availableCredit": 15000,
     "isActive": true
   }
 ]

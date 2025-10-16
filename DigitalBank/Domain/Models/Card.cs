@@ -1,4 +1,4 @@
-using DigitalBank.Api.Domain.Enums;
+using DigitalBank.Api.Domains.Enums;
 
 namespace DigitalBank.Api.Domain.Models;
 

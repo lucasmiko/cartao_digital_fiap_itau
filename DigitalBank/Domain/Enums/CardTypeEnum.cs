@@ -1,4 +1,4 @@
-namespace DigitalBank.Api.Domain.Enums;
+namespace DigitalBank.Api.Domains.Enums;
 
 public enum CardTypeEnum
 {

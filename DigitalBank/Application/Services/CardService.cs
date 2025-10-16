@@ -1,4 +1,4 @@
-using DigitalBank.Api.Domain.Enums;
+using DigitalBank.Api.Domains.Enums;
 using DigitalBank.Api.Domain.Models;
 using DigitalBank.Api.Infrastructure.Repositories;
 

@@ -1,12 +1,12 @@
 [
   {
-    "Id": 1,
-    "CustomerId": 1,
-    "Balance": 500
+    "id": 1,
+    "customerId": 1,
+    "balance": 350
   },
   {
-    "Id": 2,
-    "CustomerId": 1,
-    "Balance": 300
+    "id": 2,
+    "customerId": 1,
+    "balance": 300
   }
 ]

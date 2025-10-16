@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "date": "2025-10-16T18:34:05.808354Z",
+    "type": 2,
+    "amount": 100,
+    "status": 1,
+    "accountId": 1,
+    "cardId": 1
+  },
+  {
+    "id": 2,
+    "date": "2025-10-16T18:34:38.260917Z",
+    "type": 2,
+    "amount": 50,
+    "status": 1,
+    "accountId": 1,
+    "cardId": 1
+  },
+  {
+    "id": 3,
+    "date": "2025-10-16T18:35:26.13381Z",
+    "type": 3,
+    "amount": 21000,
+    "status": 2,
+    "accountId": 1,
+    "cardId": 3
+  },
+  {
+    "id": 4,
+    "date": "2025-10-16T18:35:51.347022Z",
+    "type": 3,
+    "amount": 5000,
+    "status": 1,
+    "accountId": 1,
+    "cardId": 3
+  }
+]
