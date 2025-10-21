@@ -39,7 +39,7 @@ public class TransactionService
             Type = TransactionTypeEnum.DebitPurchase
         };
 
-        if (account.Balance >= amount)
+        if (account?.Balance >= amount)
         {
             account.Balance -= amount;
             _accountRepository.UpdateBalance(account);
@@ -84,7 +84,7 @@ public class TransactionService
             Type = TransactionTypeEnum.CreditPurchase
         };
 
-        if (card.AvailableCredit >= amount)
+        if (card?.AvailableCredit >= amount)
         {
             card.AvailableCredit -= amount;
             _cardRepository.UpdateCard(card);
@@ -111,7 +111,7 @@ public class TransactionService
         };
     }
 
-    private TransactionResult ValidateTransaction(int accountId, int cardId, decimal amount, CardTypeEnum cardType)
+    private TransactionResult? ValidateTransaction(int accountId, int cardId, decimal amount, CardTypeEnum cardType)
     {
         if (amount <= 0)
         {

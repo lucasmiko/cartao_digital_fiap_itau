@@ -1,0 +1,21 @@
+﻿==========================================
+           EXTRATO DE CONTA
+
+Conta: 1
+Período: 10/2025
+Data de geração: 21/10/2025 15:57:45
+
+TRANSAÇÕES:
+Data       | Tipo           | Valor        | Status      | Cartão
+-----------|----------------|--------------|-------------|--------
+16/10/2025 | Compra Débito  |      $100.00 | Approved    | Cartão 1
+16/10/2025 | Compra Débito  |       $50.00 | Approved    | Cartão 1
+16/10/2025 | Compra Crédito |   $21,000.00 | Blocked     | Cartão 3
+16/10/2025 | Compra Crédito |    $5,000.00 | Approved    | Cartão 3
+
+==========================================
+RESUMO:
+Total de Créditos: $0.00
+Total de Débitos:  $150.00
+Saldo Líquido:     -$150.00
+==========================================

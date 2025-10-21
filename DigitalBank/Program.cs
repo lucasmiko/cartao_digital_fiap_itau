@@ -12,11 +12,12 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<ICustomerRepository, CustomerRepository>();
 builder.Services.AddSingleton<IAccountRepository, AccountRepository>();
 builder.Services.AddSingleton<ICardRepository, CardRepository>();
-builder.Services.AddSingleton<ITransactionRepository, TransactionRepository>();  // <<<<<<<<<<<<<<<<
+builder.Services.AddSingleton<ITransactionRepository, TransactionRepository>();
 
 builder.Services.AddSingleton<AccountService>();
 builder.Services.AddSingleton<CardService>();
-builder.Services.AddSingleton<TransactionService>(); // <<<<<<<<<<<<<<<<
+builder.Services.AddSingleton<TransactionService>();
+builder.Services.AddSingleton<ReportingService>(); // <<<<<<<<<<<<<<<<
 
 var app = builder.Build();
 

@@ -9,10 +9,12 @@ namespace DigitalBank.Api.Controllers;
 public class AccountsController : ControllerBase
 {
     private readonly AccountService _accountService;
+    private readonly ReportingService _reportingService;
 
-    public AccountsController(AccountService accountService)
+    public AccountsController(AccountService accountService, ReportingService reportingService)
     {
         _accountService = accountService;
+        _reportingService = reportingService;
     }
 
     [HttpPost]
@@ -49,5 +51,18 @@ public class AccountsController : ControllerBase
             return NotFound("Conta não encontrada.");
 
         return Ok(new { accounId = id, balance });
+    }
+
+    [HttpPost("{id:int}/statement/save")]
+    public ActionResult<object> GenerateAndSaveAccountStatement([FromRoute] int id, [FromQuery] int month, [FromQuery] int year)
+    {
+        if (month < 1 || month > 12 || year < 1)
+            return BadRequest("Mês ou ano inválido.");
+
+        var fileName = _reportingService.GenerateAndSaveAccountStatementReport(id, month, year);
+        if (fileName == null)
+            return NotFound("Ocorreu um erro. Tente novamente.");
+
+        return Ok(new { message = "Extrato gerado com sucesso.", fileName });
     }
 }

@@ -10,10 +10,12 @@ namespace DigitalBank.Api.Controllers;
 public class CardsController : ControllerBase
 {
     private readonly CardService _cardService;
+    private readonly ReportingService _reportingService;
 
-    public CardsController(CardService cardService)
+    public CardsController(CardService cardService, ReportingService reportingService)
     {
         _cardService = cardService;
+        _reportingService = reportingService;
     }
 
     [HttpPost("debit")]
@@ -56,5 +58,18 @@ public class CardsController : ControllerBase
             return NotFound("Nenhum cartão encontrado.");
 
         return Ok(cards);
+    }
+
+    [HttpPost("{id:int}/invoice/save")]
+    public ActionResult<object> GenerateAndSaveCardInvoice([FromRoute] int id, [FromQuery] int month, [FromQuery] int year)
+    {
+        if (month < 1 || month > 12 || year < 1)
+            return BadRequest("Mês ou ano inválido.");
+
+        var fileName = _reportingService.GenerateAndSaveCardInvoiceReport(id, month, year);
+        if (fileName == null)
+            return NotFound("Ocorreu um erro. Tente novamente.");
+
+        return Ok(new { message = "Fatura gerada com sucesso.", fileName });
     }
 }
