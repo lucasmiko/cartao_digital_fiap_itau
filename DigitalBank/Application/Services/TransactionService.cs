@@ -23,45 +23,12 @@ public class TransactionService
 
     public TransactionResult ProcessDebitPurchase(int accountId, int cardId, decimal amount)
     {
-        if (amount <= 0)
-        {
-            return new TransactionResult
-            {
-                Success = false,
-                Message = "O valor da compra deve ser maior que zero."
-            };
-        }
+        var validateResult = ValidateTransaction(accountId, cardId, amount, CardTypeEnum.Debit);
+
+        if (validateResult is not null)
+            return validateResult;
 
         var account = _accountRepository.GetById(accountId);
-        var card = _cardRepository.GetById(cardId);
-
-        if (account is null || card is null || card.AccountId != accountId)
-        {
-            return new TransactionResult
-            {
-                Success = false,
-                NotFound = true,
-                Message = "Conta ou cartão não encontrado."
-            };
-        }
-
-        if (!card.IsActive) // if (card.IsActive == false)
-        {
-            return new TransactionResult
-            {
-                Success = false,
-                Message = "O cartão está inativo."
-            };
-        }
-
-        if (card.CardType != CardTypeEnum.Debit)
-        {
-            return new TransactionResult
-            {
-                Success = false,
-                Message = "O cartão não é do tipo débito."
-            };
-        }
 
         var transaction = new Transaction
         {
@@ -101,45 +68,12 @@ public class TransactionService
 
     public TransactionResult ProcessCreditPurchase(int accountId, int cardId, decimal amount)
     {
-        if (amount <= 0)
-        {
-            return new TransactionResult
-            {
-                Success = false,
-                Message = "O valor da compra deve ser maior que zero."
-            };
-        }
+        var validateResult = ValidateTransaction(accountId, cardId, amount, CardTypeEnum.Credit);
 
-        var account = _accountRepository.GetById(accountId);
+        if (validateResult is not null)
+            return validateResult;
+
         var card = _cardRepository.GetById(cardId);
-
-        if (account is null || card is null || card.AccountId != accountId)
-        {
-            return new TransactionResult
-            {
-                Success = false,
-                NotFound = true,
-                Message = "Conta ou cartão não encontrado."
-            };
-        }
-
-        if (!card.IsActive)
-        {
-            return new TransactionResult
-            {
-                Success = false,
-                Message = "O cartão está inativo."
-            };
-        }
-
-        if (card.CardType != CardTypeEnum.Credit)
-        {
-            return new TransactionResult
-            {
-                Success = false,
-                Message = "O cartão não é do tipo crédito."
-            };
-        }
 
         var transaction = new Transaction
         {
@@ -175,5 +109,63 @@ public class TransactionService
             Transaction = transaction,
             Message = "Limite indisponível para realizar a compra."
         };
+    }
+
+    private TransactionResult ValidateTransaction(int accountId, int cardId, decimal amount, CardTypeEnum cardType)
+    {
+        if (amount <= 0)
+        {
+            return new TransactionResult
+            {
+                Success = false,
+                Message = "O valor da transação deve ser maior que zero."
+            };
+        }
+
+        var account = _accountRepository.GetById(accountId);
+        var card = _cardRepository.GetById(cardId);
+
+        if (account is null || card is null || card.AccountId != accountId)
+        {
+            return new TransactionResult
+            {
+                Success = false,
+                NotFound = true,
+                Message = "Conta ou cartão não encontrado."
+            };
+        }
+
+        if (!card.IsActive)
+        {
+            return new TransactionResult
+            {
+                Success = false,
+                Message = "O cartão está inativo."
+            };
+        }
+
+        if (card.CardType != cardType)
+        {
+            var cardTypeName = cardType == CardTypeEnum.Debit ? "débito" : "crédito";
+
+            /*
+            if (cardType == CardTypeEnum.Debit)
+            {
+                cardTypeName = "débito";
+            }
+            else
+            {
+                cardTypeName = "crédito";
+            }
+            */
+
+            return new TransactionResult
+            {
+                Success = false,
+                Message = $"O cartão não é do tipo {cardTypeName}."
+            };
+        }
+
+        return null;
     }
 }

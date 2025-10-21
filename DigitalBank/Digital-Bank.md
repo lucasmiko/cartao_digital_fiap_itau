@@ -64,5 +64,7 @@ Arquivos:
 - Atualizar `DigitalBank/Program.cs` para registrar repositório/serviço de transações
 - `DigitalBank/Data/transactions.json`
 
+## Parte 5 — Relatorios (extrato da conta e fatura do cartao)
+
 ---
 Navegação: [← Aula 9](../Aula-9.md)
