@@ -1,25 +1,36 @@
-# Encontro 3 - PPO (Orientação a Objetos)
+# Aula 3 — POO: Herança, Encapsulamento, Polimorfismo e Exceções
+
+## Objetivos
+- Aplicar princípios de Programação Orientada a Objetos no domínio do banco.
+- Reduzir duplicação e tornar o código mais expressivo e seguro.
 
 ## Herança
+- Classe base com características comuns; classes filhas reaproveitam e especializam comportamentos.
+- Evita duplicação e melhora a organização.
 
-Herança é quando criamos uma classe base com características comuns e, a partir dela, criamos classes filhas que reaproveitam essas características e podem adicionar ou especializar comportamentos. Isso ajuda a evitar código duplicado e mantém uma estrutura clara.
-
-class Base -> ID
-
-class Cliente -> Herda a classe Base
-
-class Conta -> Herda a classe Base
-
-class Cartao -> Herda a classe Base
+Exemplo de hierarquia:
+- `Base` → possui `Id`.
+- `Cliente` → herda de `Base`.
+- `Conta` → herda de `Base`.
+- `Cartao` → herda de `Base`.
 
 ## Encapsulamento
-
-Significa proteger os dados que nao precisam ser acessados de fora da classe. Beneficios disso: manter a regra de negocio, evitar erros/vazamentos com relacao aos dados.
+- Proteger dados que não devem ser expostos diretamente.
+- Benefícios: manter regras de negócio, evitar usos incorretos e vazamentos de estado.
 
 ## Polimorfismo
-
-Permite que metodos que tenham o mesmo nome tenham comportamentos diferentes de acordo com o tipo de dado que ele afeta.
+- Métodos com o mesmo nome podem ter comportamentos diferentes conforme o tipo concreto.
+- Útil para expor operações em alto nível e variar implementações.
 
 ## Exceções
+- Sinalizam desvios do fluxo esperado em tempo de execução.
+- Lançar exceções claras e do tipo correto (ex.: `ArgumentNullException`).
 
-Sao uma forma de sinalizar em tempo de execucao algo sai do esperado.
+## Prática
+- Modelar `Cliente`, `Conta` e `Cartao` a partir de uma classe base com `Id`.
+- Aplicar encapsulamento em estados sensíveis (ex.: saldo) por meio de métodos.
+- Usar polimorfismo para operações que variam entre tipos de cartão.
+- Lançar exceções apropriadas quando invariantes forem violadas.
+
+---
+Navegação: [← Aula 2](Aula-2.md) | [Aula 4 →](Aula-4.md)

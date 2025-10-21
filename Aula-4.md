@@ -1,72 +1,29 @@
-# Persistência de Dados
+# Aula 4 — Persistência de Dados, EF Core e LINQ
 
-Persistir os dados é **guardar as informações** para que elas continuem existindo mesmo se o servidor ou dispositivo **desligar temporariamente**.
+## Objetivos
+- Entender persistência de dados e modelagem relacional (PK/FK, relações).
+- Conhecer EF Core (Data Annotations e Fluent API).
+- Praticar consultas com LINQ e organizar migrações.
 
----
+## Banco de dados (visão geral)
+- Ambiente organizado para guardar e ler informações.
+- Conceitos: tabelas, colunas e linhas.
+- Analogia: o Excel é uma boa referência visual.
 
-## Banco de dados
+### PK e FK
+- Chave primária (PK): identificador único.
+- Chave estrangeira (FK): liga tabelas.
 
-Lugar **organizado** para guardar e ler informações.
+### Relacionamentos 1:1, 1:N, N:N
+- 1:1 — uma linha se relaciona com exatamente uma em outra tabela.
+- 1:N — uma linha se relaciona com várias de outra tabela.
+- N:N — muitas linhas de uma tabela se relacionam com muitas de outra.
 
-- **Tabelas**
-- **Colunas**
-- **Linhas**
+## ORM e EF Core
+- ORM (Object Relational Mapper): “tradutor” entre classes/objetos e tabelas/linhas.
+- EF Core: ORM oficial do .NET para focar na regra de negócio.
 
-*Analogia:* o **Excel**, de forma visual, é uma boa analogia para um banco de dados.
-
----
-
-### Chaves primárias e chaves estrangeiras
-
-- **Chave primária (PK):** identificador **único**.
-- **Chave estrangeira (FK):** usada para **ligar tabelas**.
-
-Exemplo:
-```
-
-Cartão 1225645
-    Cliente
-    Nome
-    Saldo
-    Data de nascimento
-    Endereço
-
-Cartão 365864
-    ClienteId
-
-```
-
-## Relacionamentos 1:1, 1:N, N:N
-
-- **1:1** — Uma linha de uma tabela se relaciona com **exatamente uma** linha em outra tabela.
-- **1:N** — Uma linha de uma tabela se relaciona com **várias** de outra.
-- **N:N** — Muitas linhas de uma tabela se relacionam com **muitas** linhas de outra.
-
-Exemplo:
-```
-
-Alunos — Cursos
-
-AlunoCurso
-    Id
-    AlunoId
-    CursoId
-
-````
-
-### ORM
-
-**ORM (Object Relational Mapper):** 
-
-Definição: “tradutor” entre **classes/objetos** e **tabelas/linhas**.
-
-
-## EF Core
-
-ORM oficial do .NET; permite **concentrar na regra de negócio** enquanto ele cuida dos assuntos complexos do banco de dados.
-
-- **Data Annotations**
-  
+### Data Annotations
 ```csharp
 public class Cliente
 {
@@ -79,25 +36,21 @@ public class Cliente
 }
 ```
 
-**Fluent API**
+### Fluent API
+```csharp
+protected override void OnModelCreating(ModelBuilder mb)
+{
+    mb.Entity<Cliente>()
+      .HasKey(c => c.Id);
 
-  ```csharp
-  protected override void OnModelCreating(ModelBuilder mb)
-  {
-      mb.Entity<Cliente>()
-        .HasKey(c => c.Id);
+    mb.Entity<Cliente>()
+      .Property(c => c.Name)
+      .IsRequired()
+      .HasMaxLength(100);
+}
+```
 
-      mb.Entity<Cliente>()
-        .Property(c => c.Name)
-        .IsRequired()
-        .HasMaxLength(100);
-  }
-  ```
-
-### LINQ
-
-Definição: “**português do C#**”. Trabalha **listas/coleções** (e entidades via EF) de forma simples.
-
+## LINQ (consultas)
 ```csharp
 var ultimasTransacoes = await context.Transacoes
     .Where(t => t.CartaoId == cartaoId)
@@ -106,28 +59,18 @@ var ultimasTransacoes = await context.Transacoes
     .ToListAsync();
 ```
 
+## Migrações (migrations)
+- Versões do esquema do banco; permitem evoluir e reverter alterações com segurança.
 
-## Migrations (migrações)
+## Transações (ACID)
+- Pacote de ações que precisam acontecer juntas; se uma falhar, tudo é desfeito.
 
-**Migrações** são **versões do esquema** do banco de dados.
-Permitem que todos fiquem na **mesma página** e possibilitam **reverter** uma versão que tenha causado bug.
+## Exercício
+Modele o esquema para transação de cartão de crédito e extrato mensal. Inclua ao menos:
+- Cliente
+- Cartão
+- Transação
+- Fatura/Extrato mensal
 
-
-## Transações
-
-**Transação** (no banco) é um **pacote de ações** que **precisam acontecer juntas**.
-Se uma falha, **todas são desfeitas** para manter a consistência.
-
-
-## DESAFIO 3
-
-**Pergunta:** qual seria o **modelo de dados** do banco para ter uma **transação de cartão de crédito** funcionando e gerando um **extrato mensal**?
-
-Dicas mínimas (ponto de partida):
-
-* **Cliente**
-* **Cartão**
-* **Transação**
-* **Fatura/Extrato mensal**
-
-> Cliente… Cartão… (complete o diagrama com PK/FK e campos essenciais).
+---
+Navegação: [← Aula 3](Aula-3.md) | [Aula 5 →](Aula-5.md)

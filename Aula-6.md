@@ -1,30 +1,25 @@
-# Trabalhando com Arquivos no C#
+# Aula 6 — Arquivos e Encoding no C#
 
-- Encoding
+## Objetivos
+- Ler e escrever arquivos de texto com segurança (UTF-8).
+- Usar `Directory.CreateDirectory` para garantir existência de pastas.
+- Estruturar um repositório simples baseado em arquivos.
 
-### O que é “Encoding” (em palavras simples)
+## Encoding (explicação rápida)
+- O computador entende números; encoding mapeia caracteres para números.
+- Encodings comuns:
+  - ASCII: 128 símbolos, sem acentos/emoji.
+  - Unicode: dicionário global de caracteres.
+  - UTF-8: forma moderna de armazenar Unicode (leve e padrão web).
+- Regra prática: prefira UTF-8.
 
-- Computador **não entende letras**, só números.
-- **Encoding** é a “tabela” que **mapeia** cada **caractere** para um **número**.
-- Existem várias “tabelas” (encodings). As mais comuns:
-    - **ASCII**: bem antigo, 128 símbolos (inglês). **Não tem acentos/emoji** → vira `?`.
-    - **Unicode**: “dicionário global” de caracteres (praticamente todos os idiomas).
-    - **UTF-8**: **jeito moderno de guardar Unicode**. Leve e padrão na web.
-        
-        → **Use UTF-8 para quase tudo** no dia a dia.
+## APIs úteis (99% dos casos)
+- `File.WriteAllText(path, text, encoding?)`: cria/substitui arquivo com texto.
+- `File.ReadAllText(path)`: lê todo o conteúdo como string.
+- `File.AppendAllText(path, text)`: acrescenta texto ao final do arquivo.
+- `Directory.CreateDirectory(path)`: garante que a pasta exista.
 
-ABC > 000000101010101001
-
-### Métodos que você vai usar 99% das vezes
-
-- **`File.WriteAllText(path, text, encoding?)`** → cria/substitui um arquivo com texto.
-- **`File.ReadAllText(path)`** → lê tudo como uma única string.
-- **`File.AppendAllText(path, text)`** → **acrescenta** texto ao final do arquivo.
-- **`Directory.CreateDirectory(path)`** → **garante** que a pasta existe.
-
-
-### Arquitetura desafio MiniCheckout
-
+## Desafio: MiniCheckout (arquitetura sugerida)
 ```
 /MiniCheckout
   /Api
@@ -46,3 +41,6 @@ ABC > 000000101010101001
     /Repositories
       InMemoryProductRepository.cs
 ```
+
+---
+Navegação: [← Aula 5](Aula-5.md) | [Aula 7 →](Aula-7.md)

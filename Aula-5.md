@@ -1,65 +1,46 @@
-# Arquitetura, SOLID e Injeção de Dependência
+# Aula 5 — Arquitetura em Camadas, SOLID e DI
+
+## Objetivos
+- Separar responsabilidades por camadas para legibilidade e testabilidade.
+- Aplicar princípios SOLID e injeção de dependências.
+- Conhecer padrões: Repository, Service, DTO e Mapper.
 
 ## Arquitetura em camadas
-
-Definicao: separar o nosso projeto por responsabilidades.
-
-### Beneficios
-
-- Codigo mais legivel
-- O nosso codigo fica mais testavel
-- Torna mais simples novas implementacoes sem quebrar outras partes
-
-Domain (core): regras de negocios.
-  - Cardapio e receitas 
-
-Services: comunicacao com os repositorios. Executa as regras de negocio
-  - Cozinha
-
-Infraestrutura/Repositories: Ponte entre a aplicacao e os dados
- - Despensa/Fornecedor
-
-API (controller / endpoits): comunicacao entre o client e o nosso core
-  - Garcom
+- Domain (Core): entidades e regras de negócio.
+- Application/Services: orquestra regras, coordena repositórios.
+- Infrastructure/Repositories: acesso a dados (arquivos/BD).
+- API (Controllers): expõe endpoints HTTP.
 
 Fluxo comum:
 
-Client (frontend) > API (Controller) > Services (regras) > Repository (acesso dados) > Resposta (DTO)
-
 ```csharp
 [ API (Controllers) ]
-          |
-          v
-[ Application / Services ]  <-- Regras de negócio orquestradas
-          |
-          v
-[ Infrastructure / Repositories ]  <-- Lê/Grava
-          |
-          v
-[ Data (arquivos, Banco de dados (SQL / NoSql)) ]
+         |
+         v
+[ Application / Services ]       // Regras de negócio orquestradas
+         |
+         v
+[ Infrastructure / Repositories ] // Lê/Grava
+         |
+         v
+[ Data (arquivos, bancos SQL/NoSQL) ]
 
-
-// Algo que pode ser comum em todas as camadas, e que dita o nosso sistema
-[ Domain ]  <-- Entidades/valores e regras puras (transversal)
-
+// Transversal ao sistema
+[ Domain ] // Entidades/valores e regras puras
 ```
 
 ## SOLID
 
-### S - SRP - Single Responsibility Principle
+### S — SRP (Single Responsibility Principle)
+- Uma classe deve ter um único motivo para mudar.
 
-Definicao: uma classe deve ter um objetivo, um motivo para mudar.
+### O — OCP (Open/Closed Principle)
+- Aberto para extensão, fechado para modificação.
 
-### O - OCP - Open/Closed Principle
-
-Definicao: aberto para extensao, fechado para modificacao. Para adicionar um comportamento, criamos algo novo, nao reescrevemos o que ja esta funcionando. 
-
-### L - LSP - Liskov Substitution Principle
-
-Definicao: se um tipo  B é o mesmo que do tipo A, devmos usar o B onde se espera o A, sem complicacoes.
+### L — LSP (Liskov Substitution Principle)
+- Se B é subtipo de A, B deve poder ser usado onde se espera A, sem surpresas.
 
 ```csharp
-
 public interface INotificador
 {
     void Enviar(string mensagem);
@@ -67,145 +48,78 @@ public interface INotificador
 
 public class EmailNotificador : INotificador
 {
-    public void Enviar(string mensagem){
-        // Regra para enviar um email
-        // SMTP > Servico de email contratado (gmail. outlook)
-        // validar qual email vai receber
-        //Se o email veio com regex bem construido, com @dominio.com / .com.br
-        // retornar junto uma mensagem de olhe sua caixa de spam
+    public void Enviar(string mensagem)
+    {
+        // Regras para enviar e-mail (SMTP, validação etc.)
     }
 }
 
-public class SMSNotificador : INotificador
+public class SmsNotificador : INotificador
 {
-    public void Enviar(string mensagem){
-        // Tem regras especificas do nosso servico de mensagem de texto
-        // Qual o limite de tentativas?
-        // retornar junto uma mensagem de espera
+    public void Enviar(string mensagem)
+    {
+        // Regras específicas para SMS (limite, fila etc.)
     }
-
-    private string RetornarOtempoDeEspera(){}
 }
 
-void AvisarNossoCliente(INotificador notificador){
+void AvisarNossoCliente(INotificador notificador)
+{
     notificador.Enviar("Mensagem qualquer!");
 }
 
 AvisarNossoCliente(new EmailNotificador());
-AvisarNossoCliente(new SMSNotificador());
-
+AvisarNossoCliente(new SmsNotificador());
 ```
 
-### I - ISP - Interface Segregation Principle
+### I — ISP (Interface Segregation Principle)
+- Interfaces pequenas e focadas; não forçar contratos desnecessários.
 
-Definicao: interfaces que sao pequenas e focadas em um objetivo. Nao deve obrigar alguma parte do nosso projeto a implementar algo que ele nao usa.
-
-Email > Validar o dominio @...
-
-O que é uma interface? Um contrato.
-
-### D - Dependency Inversion Principle
-
-Definicao: depender de abstracoes (interfaces) e nao de classes concretas.
-
-Interface de controller
-
-```csharp
-public interface IController 
-{
-    GetAll();
-    GetById();
-    Create();
-    Update();
-    Delete();
-}
-
-public class PurchaseController : IController
-{
-
-}
-
---Repository
-    --Interfaces
-        --Repositories
---Service
-    --Interfaces
-        --Services
---Controller
-    --Interfaces
-        --Controllers
-```
+### D — DIP (Dependency Inversion Principle)
+- Depender de abstrações (interfaces), não de classes concretas.
 
 ## Injeção de Dependência (DI)
-
-Definicao: É o meio pelo qual entregamos a uma classe tudo o que ela precisa para funcionar, ja pronto para uso.
+- Entregar às classes suas dependências já prontas, via container.
 
 ```csharp
-// builder.Services.AddSingleton<ITransactionRepository, FileTransactionRepository>
-
-builder.Services.AddSingleton<ITransactionRepository, FileDevTransactionRepository>
+builder.Services.AddSingleton<ITransactionRepository, TransactionRepository>();
 ```
 
-- Tem ciclos de vida
-    - Transient: objeto novo novo a cada vez
-        - copo descartavel
-    - Scoped: um por requisicao HTTP
-        - caneca de um funcionario
-    - Singleton: uma para a aplicacao inteira
-        - maquina de cafe, garrafa termica
+### Ciclos de vida
+- Transient: nova instância a cada resolução (copo descartável).
+- Scoped: uma por requisição HTTP (caneca do funcionário).
+- Singleton: uma para a aplicação inteira (garrafa térmica).
 
-Obter o cafe!
+## Padrões
 
-# Padrões
+### Repository
+- Porta de acesso aos dados; isola infraestrutura.
 
-## Repository
+### Service
+- Orquestra regras de negócio e coordena repositórios; facilita testes.
 
-Definicao: uma porta de acesso aos nossos dados.
-
-Beneficio: isola infraestrutura, se o formato do arquivo ou dado que estamos trabalhando mudar a regra nao sofre.
-
-## Service
-
-Definicao: sao como um orquestrador da regra de negocios. Valida e cordena os repositorios.
-
-Beneficio: concentra a logica dentro de um so lugar. Controller ele ficam com uma qualidade mais fina. Facil de testar.
-
-## DTO
-
-Definicao: Data Transfer Object. Contrato de entrada e saida de dados. Um objeto de trnaferencia.
+### DTO
+- Data Transfer Object: contrato de entrada/saída de dados.
 
 ```csharp
-// Classe
-public class Cafe
+public class CafeDto
 {
-    Quantidade
-
-    Temperatura
-
-    Tipo
-
-    ComSemCafeina
-}
-
-public class CafeDTO
-{
-    Tipo
-
-    ComSemCafeina, required, int/string...
-
-    // Gravar no banco as informacoes consulta por Id
+    public string Tipo { get; set; } = "";
+    public bool SemCafeina { get; set; }
 }
 ```
 
-## Mapper
+### Mapper
+- Tradutor entre DTO e entidade do domínio.
 
-Definicao: tradutor entre o DTO - Entidade do dominio
+Analogia:
+- Repository: bibliotecário
+- Service: professor
+- DTO: envelope com um resumo
+- Mapper: garante o idioma certo entre camadas
 
-Analogia
+## Prática
+- Criar interfaces e implementações de repositórios/serviços.
+- Registrar as dependências no `Program.cs` e consumir nos controllers.
 
-    - Repository: bibliotecario
-    - Services: professor
-    - DTO: envelope com o um resumo
-    - Mapper: garante que o resumo ele esteja idioma correto
-
-
+---
+Navegação: [← Aula 4](Aula-4.md) | [Aula 6 →](Aula-6.md)
