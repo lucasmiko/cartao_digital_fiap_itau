@@ -1,6 +1,6 @@
 # Prova Final — Backend .NET/C# (Projeto DigitalBank)
 
-Tempo sugerido: 60 minutos
+Tempo sugerido: 60-90 minutos
 Formato: Respostas em arquivo único (ex.: `Respostas-NomeAluno.md`), ou por e-mail (lucasmiko.dev@gmail.com). Use trechos de código quando solicitado.
 Recursos: Código do repositório permitido; sem pesquisa externa.
 
